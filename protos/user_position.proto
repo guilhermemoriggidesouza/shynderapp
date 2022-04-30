@@ -1,0 +1,20 @@
+
+syntax = "proto3";
+
+package UserPosition;
+
+import "google/protobuf/empty.proto";
+
+message UserPositionReq {
+    int32 id = 1;
+    int32 log = 2;
+    int32 lat = 3;
+}
+
+message UserPositionList {
+    repeated UserPositionReq usersPositions = 1;
+}
+
+service UserPosition {
+    rpc SyncUserPosition(stream UserPositionReq) returns (stream UserPositionList) {};
+}
