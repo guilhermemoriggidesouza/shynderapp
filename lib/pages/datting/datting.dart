@@ -41,11 +41,11 @@ class Datting extends StatelessWidget {
   }
 
   buildCloseButton() {
-    return AnimatedButton(Icons.close, (){});
+    return AnimatedButton(Icons.close, (){}, 100);
   }
 
   buildLikeButton() {
-    return AnimatedButton(Icons.favorite, (){});
+    return AnimatedButton(Icons.favorite, (){}, 100);
   }
 
   @override

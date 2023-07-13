@@ -50,17 +50,18 @@ class Matches extends StatelessWidget {
   ];
 
   Widget renderMatch(matchInfos) {
+    print(matchInfos);
     return Card(
       child: ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.network(
-            matchInfos.url,
+            matchInfos["url"],
             height: 60.0,
             width: 60.0,
           ),
         ),
-        title: Text(matchInfos.bio),
+        title: Text(matchInfos["bio"]),
         trailing: Icon(Icons.more_vert),
       ),
     );

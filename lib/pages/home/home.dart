@@ -1,31 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-import 'package:shynder/pages/home/matches.dart';
-import 'package:shynder/pages/home/datting.dart';
-import 'package:shynder/pages/home/profile.dart';
-import 'package:shynder/service/userPosition.dart';
+import 'package:shynder/pages/home/profile/profile.dart';
 
-class LocationPage extends StatefulWidget {
-  const LocationPage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<LocationPage> createState() => _LocationPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _LocationPageState extends State<LocationPage> {
-  Location location = new Location();
-  LocationData? _locationData;
-  UserPositionService userPositionService = new UserPositionService();
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  getLocation() async {
-    _locationData = await location.getLocation();
-    print(_locationData);
-  }
-
   List<Widget> _widgetOptions = <Widget>[
-    Profile(),
-    Datting(),
-    Matches()
+    Profile(), 
+    Profile(), 
   ];
 
   void _onItemTapped(int index) {
@@ -36,9 +24,6 @@ class _LocationPageState extends State<LocationPage> {
 
   @override
   Widget build(BuildContext context) {
-    // getLocation();
-    // userPositionService.sendPositionUser();
-    print(_widgetOptions.elementAt(_selectedIndex));
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
@@ -48,12 +33,8 @@ class _LocationPageState extends State<LocationPage> {
             label: 'Perfil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.flash_on),
-            label: 'Na sua área',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Matches',
+            icon: Icon(Icons.person),
+            label: 'Perfil',
           ),
         ],
         currentIndex: _selectedIndex,

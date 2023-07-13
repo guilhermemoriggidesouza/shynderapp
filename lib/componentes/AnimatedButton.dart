@@ -1,9 +1,11 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 class AnimatedButton extends StatefulWidget {
   IconData icon;
+  double radius;
   Function onClick;
-  AnimatedButton(this.icon, this.onClick);
+  AnimatedButton(this.icon, this.onClick, this.radius);
   @override
   _AnimatedButtonState createState() => _AnimatedButtonState();
 }
@@ -57,7 +59,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
 
   Widget get _animatedButtonUI => Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(widget.radius),
           boxShadow: const [
             BoxShadow(
               color: Color(0xffE4BCC3),
@@ -65,12 +67,9 @@ class _AnimatedButtonState extends State<AnimatedButton>
           ],
         ),
         child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Icon(
-              widget.icon,
-              color: Colors.black,
-            ),
+          child: Icon(
+            widget.icon,
+            color: Colors.black,
           ),
         ),
       );

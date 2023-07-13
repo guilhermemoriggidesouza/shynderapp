@@ -3,25 +3,24 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.12.0 <=3.10.5"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: 0.1.2
-  location: 4.3.0
-  grpc: 3.0.2
-  protobuf: 2.0.1
-  json_theme: 3.3.1
-  file_picker: 4.5.1
+  cupertino_icons: 1.0.5
+  location: 5.0.0
+  grpc: 3.2.2
+  protobuf: 3.0.0
+  json_theme: 6.0.2+3
+  file_picker: 5.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-    
-  protoc_plugin: 20.0.0
+  protoc_plugin: 21.0.2
 
 flutter:
   assets:

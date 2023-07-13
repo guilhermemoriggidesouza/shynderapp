@@ -12,7 +12,7 @@ void main() async {
   String themeStr = await rootBundle.loadString('assets/theme.json');
   var themeJson = json.decode(themeStr);
 
-  var theme = ThemeDecoder.decodeThemeData(themeJson);
+  var theme = ThemeDecoder.decodeThemeData(themeJson, validate: false);
   runApp(MyApp(theme));
 }
 
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
     getPermission();
     return MaterialApp(
       title: 'Flutter Demo',
-      home: LocationPage(),
+      home: HomePage(),
       theme: theme,
     );
   }
