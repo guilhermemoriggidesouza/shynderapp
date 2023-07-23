@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:shynder/pages/home/profile/profile.dart';
+import 'package:shynder/pages/home/spoted/spoted.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,13 +13,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
-    Profile(), 
-    Profile(), 
+    Spoted(),
+    Container(),
+    Profile(true),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      if (index == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Spoted()),
+        );
+      } else {
+        _selectedIndex = index;
+      }
     });
   }
 
@@ -27,14 +36,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: 0,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
+            icon: Icon(Icons.manage_search_sharp),
+            label: 'Spotds',
+          ),
+          BottomNavigationBarItem(
+            backgroundColor: Color(0xff673AB7),
+            icon: Icon(Icons.add, color: Color(0xffFFFFFF), size: 40),
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Perfil',
+            label: '',
           ),
         ],
         currentIndex: _selectedIndex,

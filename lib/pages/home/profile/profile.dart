@@ -3,7 +3,8 @@ import 'package:shynder/pages/home/profile/edit.dart';
 import 'package:shynder/pages/home/profile/view.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  bool canEdit = false;
+  Profile(this.canEdit);
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -45,7 +46,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: Text(editMode ? "Edite seu perfil" : "Perfil"),
-        actions: [buildActionButton()],
+        actions: [widget.canEdit ? buildActionButton() : Container()],
       ),
       body: Column(
         children: [editMode ? EditProfile() : ViewProfile()],

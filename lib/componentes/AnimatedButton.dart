@@ -62,7 +62,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
           borderRadius: BorderRadius.circular(widget.radius),
           boxShadow: const [
             BoxShadow(
-              color: Color(0xffE4BCC3),
+              color: Color(0xff673AB7),
             ),
           ],
         ),
