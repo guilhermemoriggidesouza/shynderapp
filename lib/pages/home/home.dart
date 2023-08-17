@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:shynder/pages/home/profile/profile.dart';
+import 'package:shynder/pages/home/spoted/createSpoted.dart';
 import 'package:shynder/pages/home/spoted/spoted.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       if (index == 1) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Spoted()),
+          MaterialPageRoute(builder: (context) => CreateSpoted()),
         );
       } else {
         _selectedIndex = index;

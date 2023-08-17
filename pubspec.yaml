@@ -17,6 +17,7 @@ dependencies:
   file_picker: 5.3.2
   google_maps_flutter: 2.3.1
   auto_size_text: 3.0.0
+  url_launcher: 6.1.12
 
 dev_dependencies:
   flutter_test:

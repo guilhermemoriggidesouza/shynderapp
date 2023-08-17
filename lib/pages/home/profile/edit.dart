@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shynder/componentes/AnimatedButton.dart';
+import 'package:shynder/componentes/input.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -15,8 +16,7 @@ class EditProfileState extends State<EditProfile> {
     ..text = 'Advogato';
   TextEditingController proController = TextEditingController()
     ..text = 'Advogato';
-  TextEditingController ageController = TextEditingController()
-    ..text = 'Advogato';
+  TextEditingController ageController = TextEditingController()..text = '0';
   List<String> images = [
     "https://static.poder360.com.br/2021/07/faustao.png",
     "https://static1.purepeople.com.br/articles/7/32/39/07/@/3652908-faustao-foi-operado-para-retirada-de-cat-624x600-1.jpg",
@@ -58,13 +58,8 @@ class EditProfileState extends State<EditProfile> {
   Widget renderImages() {
     return Container(
       height: 300,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: images.length,
-        itemBuilder: (context, index) {
-          return createImage(images[index]);
-        },
-      ),
+      child: PageView(
+          children: images.map((image) => createImage(image)).toList()),
     );
   }
 
@@ -79,41 +74,24 @@ class EditProfileState extends State<EditProfile> {
     );
   }
 
-  input(TextEditingController control, String name, onChange) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-      child: TextField(
-        scrollPadding: EdgeInsets.only(bottom: 60),
-        controller: bioController,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: name,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: ScrollPhysics(),
-      child: Column(
-        children: [
-          renderImages(),
-          addingPhotos(),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(children: [
-              Expanded(flex: 7, child: input(nameController, "Nome", () {})),
-              Expanded(flex: 3, child: input(nameController, "Idade", () {}))
-            ]),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: input(nameController, "Bio", () {}),
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        renderImages(),
+        addingPhotos(),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          child: Row(children: [
+            Expanded(flex: 7, child: input(nameController, "Nome", () {})),
+            Expanded(flex: 3, child: input(nameController, "Idade", () {}))
+          ]),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          child: input(nameController, "Bio", () {}),
+        )
+      ],
     );
   }
 }

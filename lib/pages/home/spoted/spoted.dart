@@ -6,6 +6,7 @@ import 'package:shynder/componentes/alert.dart';
 import 'package:shynder/pages/home/profile/edit.dart';
 import 'package:shynder/pages/home/profile/profile.dart';
 import 'package:shynder/pages/home/spoted/comments.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Spoted extends StatefulWidget {
   const Spoted({Key? key}) : super(key: key);
@@ -73,7 +74,7 @@ class _SpotedState extends State<Spoted> {
                 );
               },
               title: Text('Fausto Silva'),
-              subtitle: Text('Há 10 km de você'),
+              subtitle: Text('Visto há 10 km de você'),
             ),
             Text(title,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
@@ -96,6 +97,7 @@ class _SpotedState extends State<Spoted> {
                   InkWell(
                     child: Text(
                       "Leia mais",
+                      style: TextStyle(color: Colors.blue),
                     ),
                     onTap: () {
                       showAlert(context, title: title, content: description);
@@ -115,8 +117,8 @@ class _SpotedState extends State<Spoted> {
                       child: TabBar(
                         indicatorSize: TabBarIndicatorSize.tab,
                         tabs: [
-                          Tab(text: "Mapa"),
                           Tab(text: "Foto"),
+                          Tab(text: "Mapa"),
                         ],
                       ),
                     ),
@@ -124,6 +126,10 @@ class _SpotedState extends State<Spoted> {
                       child: Container(
                         child: TabBarView(
                           children: [
+                            Image.network(
+                              "https://static.poder360.com.br/2021/07/faustao.png",
+                              fit: BoxFit.cover,
+                            ),
                             Stack(
                               children: <Widget>[
                                 GoogleMap(
@@ -140,11 +146,22 @@ class _SpotedState extends State<Spoted> {
                                   },
                                   circles: circles,
                                 ),
+                                IconButton(
+                                  iconSize: 35,
+                                  onPressed: () async {
+                                    String googleUrl =
+                                        'https://www.google.com/maps/search/?api=1&query=-22.75075075,-47.31588364';
+                                    if (await canLaunchUrl(
+                                        Uri.parse(googleUrl))) {
+                                      await launchUrl(Uri.parse(googleUrl));
+                                    } else {
+                                      throw 'Could not open the map.';
+                                    }
+                                  },
+                                  color: Colors.black,
+                                  icon: Icon(Icons.map_sharp),
+                                ),
                               ],
-                            ),
-                            Image.network(
-                              "https://static.poder360.com.br/2021/07/faustao.png",
-                              fit: BoxFit.cover,
                             ),
                           ],
                         ),
@@ -180,6 +197,16 @@ class _SpotedState extends State<Spoted> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Spoteds perto de você!!"),
+        actions: [
+          IconButton(
+            iconSize: 35,
+            onPressed: () async {
+              
+            },
+            color: Colors.black,
+            icon: Icon(Icons.map_sharp),
+          ),
+        ],
       ),
       body: PageView(
         scrollDirection: Axis.vertical,
