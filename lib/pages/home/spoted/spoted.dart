@@ -23,6 +23,7 @@ class _SpotedState extends State<Spoted> {
     "Achei essa gata",
     "fodace essa porra",
   ];
+  bool yoursSpoteds = false;
 
   buildActionButton() {
     return Container(
@@ -201,10 +202,27 @@ class _SpotedState extends State<Spoted> {
           IconButton(
             iconSize: 35,
             onPressed: () async {
-              
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return Column(
+                    children: [
+                      CheckboxListTile(
+                        title: const Text('Seus Spoteds'),
+                        value: this.yoursSpoteds,
+                        onChanged: (value) {
+                          setState(() {
+                            this.yoursSpoteds = !this.yoursSpoteds;
+                          });
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
-            color: Colors.black,
-            icon: Icon(Icons.map_sharp),
+            color: Colors.white,
+            icon: Icon(Icons.filter),
           ),
         ],
       ),

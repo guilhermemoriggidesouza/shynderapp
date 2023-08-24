@@ -17,6 +17,7 @@ class EditProfileState extends State<EditProfile> {
   TextEditingController proController = TextEditingController()
     ..text = 'Advogato';
   TextEditingController ageController = TextEditingController()..text = '0';
+  TextEditingController facController = TextEditingController()..text = '0';
   List<String> images = [
     "https://static.poder360.com.br/2021/07/faustao.png",
     "https://static1.purepeople.com.br/articles/7/32/39/07/@/3652908-faustao-foi-operado-para-retirada-de-cat-624x600-1.jpg",
@@ -84,13 +85,21 @@ class EditProfileState extends State<EditProfile> {
           margin: EdgeInsets.symmetric(horizontal: 10),
           child: Row(children: [
             Expanded(flex: 7, child: input(nameController, "Nome", () {})),
-            Expanded(flex: 3, child: input(nameController, "Idade", () {}))
+            Expanded(flex: 3, child: input(ageController, "Idade", () {}))
           ]),
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 10),
-          child: input(nameController, "Bio", () {}),
-        )
+          child: input(proController, "Ocupação", () {}),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          child: input(facController, "Faculdade", () {}),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          child: input(bioController, "Bio", () {}),
+        ),
       ],
     );
   }
