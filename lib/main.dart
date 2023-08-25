@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:json_theme/json_theme.dart';
 import 'package:location/location.dart';
+import 'package:shynder/infra/api.dart';
 import 'package:shynder/pages/home/home.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await dotenv.load(fileName: ".env");
+  Api().start();
   String themeStr = await rootBundle.loadString('assets/theme.json');
   var themeJson = json.decode(themeStr);
-
   var theme = ThemeDecoder.decodeThemeData(themeJson, validate: false);
   runApp(MyApp(theme));
 }

@@ -18,6 +18,9 @@ dependencies:
   google_maps_flutter: 2.3.1
   auto_size_text: 3.0.0
   url_launcher: 6.1.12
+  flutter_dotenv: 5.1.0
+  dio: 5.3.2
+  shared_preferences: 2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -29,4 +32,5 @@ flutter:
   assets:
     - assets/logo.png
     - assets/theme.json
+    - .env
   uses-material-design: true
