@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.manage_search_sharp),
-            label: 'Spotds',
+            label: 'Spoteds',
           ),
           BottomNavigationBarItem(
             backgroundColor: Color(0xff673AB7),

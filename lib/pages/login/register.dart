@@ -20,7 +20,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _switchValue = false;
   int _state = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Text(
                     'Crie sua conta para ter acesso completo a todas as funcionalidades e recursos disponiveis no app.',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'OpenSans'),
+                    style: TextStyle(fontSize: 14, fontFamily: 'OpenSans'),
                   ),
                   const SizedBox(
                     height: 27,
@@ -81,8 +78,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(30.0))),
                     height: 50,
                     onPressed: () {
-
-                      if(checkRegister(nameController,EmailController,passwordController,passwordConfirmController)){
+                      if (checkRegister(nameController, EmailController,
+                          passwordController, passwordConfirmController)) {
                         setState(() {
                           if (_state == 0) {
                             animateButton();
@@ -90,8 +87,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
                         });
                       }
-
-
                     },
                     child: setUpButtonChild(),
                     textColor: Colors.white,
@@ -107,7 +102,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ));
   }
-
 
   Widget setUpButtonChild() {
     if (_state == 0) {
@@ -154,15 +148,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  register() async {
-   
-  }
+  register() async {}
 
-  static final validCharacters = RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+  static final validCharacters =
+      RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
 
   checkRegister(TextEditingController nome, TextEditingController email,
       TextEditingController senha, TextEditingController senhaconfirm) {
-
     if (nome.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Digite o seu nome completo")));

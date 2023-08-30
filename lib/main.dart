@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:json_theme/json_theme.dart';
@@ -7,6 +6,7 @@ import 'package:location/location.dart';
 import 'package:shynder/infra/api.dart';
 import 'package:shynder/pages/home/home.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shynder/pages/login/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
     getPermission();
     return MaterialApp(
       title: 'Flutter Demo',
-      home: HomePage(),
+      home: LoginScreen(),
       theme: theme,
     );
   }

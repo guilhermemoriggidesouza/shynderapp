@@ -14,7 +14,6 @@ class Api {
     baseUrl: dotenv.env["API_URL"]!,
     connectTimeout: Duration(seconds: 3),
     receiveTimeout: Duration(seconds: 5),
-    contentType: 'application/json; charset=utf-8',
     responseType: ResponseType.json,
   );
 

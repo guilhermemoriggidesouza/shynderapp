@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:shynder/controllers/auth.dart';
+import 'package:shynder/pages/home/home.dart';
 import 'package:shynder/pages/login/register.dart';
 import 'package:shynder/pages/login/utils.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'register.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,9 +17,23 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController loginController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthController authController = AuthController();
   int _state = 0;
+  bool loading = false;
+
+  @override
+  void initState() async {
+    super.initState();
+    bool wasLogged = await authController.verifyIfWasLogged();
+    if (wasLogged) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,119 +43,73 @@ class _LoginScreenState extends State<LoginScreen> {
           elevation: 0,
         ),
         body: Container(
-          alignment: Alignment.topCenter,
+          alignment: Alignment.center,
           margin: const EdgeInsets.symmetric(horizontal: 30),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    //Navigator.of(context).push(MaterialPageRoute(builder: (_) => EmpresaHome(),),);
-                  },
-                  child: const Text(
-                    'Login',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontFamily: 'OpenSans',
-                        letterSpacing: 0.1),
-                  ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _buildFooterLogo(),
                 ),
-                const SizedBox(
-                  height: 6,
-                ),
+                const SizedBox(height: 60),
+                _buildTextField(loginController, Icons.login, 'Login', false),
+                const SizedBox(height: 30),
+                _buildTextField(passwordController, Icons.lock, 'Senha', true),
+                const SizedBox(height: 30),
                 const Text(
-                  'Entre com seu email e senha para realizar o login em nossa plataforma',
+                  'Entre com seu login e senha para entrar em nossa plataforma',
                   textAlign: TextAlign.start,
                   style: TextStyle(fontSize: 14, fontFamily: 'OpenSans'),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                _buildTextField(emailController, Icons.email, 'Email', false),
-                const SizedBox(height: 20),
-                _buildTextField(passwordController, Icons.lock, 'Senha', true),
                 const SizedBox(height: 30),
-                MaterialButton(
-                  elevation: 0,
-                  minWidth: double.maxFinite,
-                  height: 50,
-                  onPressed: () {
-                    if (checkLogin(emailController, passwordController)) {
-                      setState(() {
-                        if (_state == 0) {
-                          animateButton();
+                Center(
+                  child: ButtonTheme(
+                    minWidth: 100.0,
+                    height: 50.0,
+                    child: OutlinedButton(
+                      onPressed: () async {
+                        if (checkLogin(loginController, passwordController)) {
+                          setState(() {
+                            this.loading = true;
+                          });
+                          try {
+                            await authController.login(
+                                loginController.text, passwordController.text);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()),
+                            );
+                          } catch (err) {
+                            Fluttertoast.showToast(
+                              msg: err.toString().split(":")[1],
+                              backgroundColor: Colors.red,
+                            );
+                          } finally {
+                            setState(() {
+                              this.loading = false;
+                            });
+                          }
                         }
-                      });
-                    }
-                  },
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                  child: const Text('Login',
-                      style: TextStyle(color: Colors.white, fontSize: 16)),
-                  textColor: Colors.white,
+                      },
+                      child: loading
+                          ? SizedBox(
+                              child: CircularProgressIndicator(),
+                              height: 10.0,
+                              width: 10.0,
+                            )
+                          : Text(
+                              'Login',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 35),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    // Ink(
-                    //   decoration: const ShapeDecoration(
-                    //     color: Cores.ConstrasteComfundo,
-                    //     shape: RoundedRectangleBorder(
-                    //         borderRadius:
-                    //             BorderRadius.all(Radius.circular(30.0))),
-                    //   ),
-                    //   child: IconButton(
-                    //     onPressed: () async {},
-                    //     icon: const Icon(
-                    //       FontAwesomeIcons.google,
-                    //       color: Cores.CorDeDestaque,
-                    //     ),
-                    //     padding: const EdgeInsets.all(12),
-                    //     iconSize: 30.0,
-                    //   ),
-                    // ),
-                    // Ink(
-                    //   decoration: const ShapeDecoration(
-                    //     color: Cores.ConstrasteComfundo,
-                    //     shape: RoundedRectangleBorder(
-                    //         borderRadius:
-                    //             BorderRadius.all(Radius.circular(30.0))),
-                    //   ),
-                    //   child: IconButton(
-                    //     onPressed: () {},
-                    //     icon: const Icon(
-                    //       FontAwesomeIcons.facebook,
-                    //       color: Cores.CorDeDestaque,
-                    //     ),
-                    //     padding: const EdgeInsets.all(12),
-                    //     iconSize: 30.0,
-                    //   ),
-                    // ),
-                    // Ink(
-                    //   decoration: const ShapeDecoration(
-                    //     color: Cores.ConstrasteComfundo,
-                    //     shape: RoundedRectangleBorder(
-                    //         borderRadius:
-                    //             BorderRadius.all(Radius.circular(30.0))),
-                    //   ),
-                    //   child: IconButton(
-                    //     onPressed: () {},
-                    //     icon: const Icon(
-                    //       FontAwesomeIcons.twitter,
-                    //       color: Cores.CorDeDestaque,
-                    //     ),
-                    //     padding: const EdgeInsets.all(12),
-                    //     iconSize: 30.0,
-                    //   ),
-                    // ),
-                  ],
-                ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 60),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -157,47 +128,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _buildFooterLogo(),
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text('Não lembra da senha?',
+                        style: TextStyle(fontSize: 16)),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => RegisterScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Clique Aqui',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ));
   }
 
-  checkLogin(TextEditingController email, TextEditingController senha) {
-    if (email.text.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Digite um email valido")));
+  checkLogin(TextEditingController login, TextEditingController senha) {
+    if (login.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Digite um login valido",
+        backgroundColor: Colors.green,
+      );
       return false;
     }
     if (senha.text.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Digite sua senha")));
-      return false;
-    }
-
-    if (!EmailCheck().isValidEmail(email.text)) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Email invalido")));
+      Fluttertoast.showToast(
+        msg: "Digite sua senha",
+        backgroundColor: Colors.green,
+      );
       return false;
     }
     return true;
-  }
-
-  void animateButton() {
-    setState(() {
-      _state = 1;
-    });
-
-    Timer(Duration(milliseconds: 3300), () {
-      setState(() {
-        _state = 2;
-      });
-    });
   }
 
   _buildFooterLogo() => Row(
@@ -205,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           const Text(
-            '  Spoted',
+            'Spoted',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
