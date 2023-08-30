@@ -11,7 +11,6 @@ import 'package:shynder/pages/login/login.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  Api().start();
   String themeStr = await rootBundle.loadString('assets/theme.json');
   var themeJson = json.decode(themeStr);
   var theme = ThemeDecoder.decodeThemeData(themeJson, validate: false);
@@ -46,6 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getPermission();
+    Api().start(context);
     return MaterialApp(
       title: 'Flutter Demo',
       home: LoginScreen(),

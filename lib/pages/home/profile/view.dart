@@ -1,6 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobx/mobx.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:shynder/store/User/user.store.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewProfile extends StatefulWidget {
   const ViewProfile({Key? key}) : super(key: key);
@@ -10,12 +16,14 @@ class ViewProfile extends StatefulWidget {
 }
 
 class _ViewProfileState extends State<ViewProfile> {
-  List<String> images = [
-    "https://static.poder360.com.br/2021/07/faustao.png",
-    "https://static1.purepeople.com.br/articles/7/32/39/07/@/3652908-faustao-foi-operado-para-retirada-de-cat-624x600-1.jpg",
-    "https://static1.purepeople.com.br/articles/8/32/03/28/@/3613491-faustao-levou-tombo-no-palco-do-dominga-624x600-1.jpg",
-    "https://static1.purepeople.com.br/articles/8/32/03/28/@/3613491-faustao-levou-tombo-no-palco-do-dominga-624x600-1.jpg"
-  ];
+  List<String> images = [];
+  UserStore userStore = UserStore();
+
+  @override
+  void initState() {
+    super.initState();
+    userStore.getValue();
+  }
 
   Widget createImage(url) {
     return Stack(children: [
@@ -57,45 +65,114 @@ class _ViewProfileState extends State<ViewProfile> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          renderImages(),
-          Container(
-            margin: EdgeInsets.only(top: 20, bottom: 5),
-            child: Text(
-              "Fausto Silva, 45 Anos",
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
-            child: Text(
-                "Oooooooooooooooooooooooooooooolllllllllllllloooooooooooooooooooooooooooooooooooooooooooko bicho!!!..., se vira nos 30 ai meu, ó a fera ai meu, está na hora agora das videooooosss cacetadas bichooooo",
-                style: TextStyle(fontSize: 14),
-                textAlign: TextAlign.center),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Icon(
-                Icons.facebook,
-                size: 40,
-              ),
-              Icon(
-                Icons.facebook,
-                size: 40,
-              ),
-              Icon(
-                Icons.facebook,
-                size: 40,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Observer(
+        builder: (context) {
+          if (userStore.user == null) {
+            return Container(
+              margin: const EdgeInsets.symmetric(vertical: 60),
+              alignment: Alignment.center,
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
+          switch (userStore.user!.status) {
+            case FutureStatus.pending:
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 60),
+                alignment: Alignment.center,
+                child: Center(child: CircularProgressIndicator()),
+              );
+
+            case FutureStatus.rejected:
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 60),
+                alignment: Alignment.center,
+                child: Center(
+                    child: Text(
+                        "Não foi possível carregar seu perfil, tente novamente mais tarde")),
+              );
+            case FutureStatus.fulfilled:
+              return Column(
+                children: [
+                  renderImages(),
+                  Container(
+                    margin: EdgeInsets.only(top: 20, bottom: 5),
+                    child: Text(
+                      userStore.user!.result.name,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: 5, bottom: 20, left: 20, right: 20),
+                    child: Text(
+                      userStore.user!.result.bio,
+                      style: TextStyle(fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      userStore.user!.result.facebook != null
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.facebook,
+                              ),
+                              onPressed: () async {
+                                String url = userStore.user!.result.facebook;
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  Fluttertoast.showToast(
+                                    msg: "Não foi possível acessar o link",
+                                    backgroundColor: Colors.red,
+                                  );
+                                }
+                              },
+                            )
+                          : Container(),
+                      userStore.user!.result.instagram != null
+                          ? IconButton(
+                              icon: Icon(
+                                FontAwesomeIcons.instagram,
+                              ),
+                              onPressed: () async {
+                                String url = userStore.user!.result.instagram;
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  Fluttertoast.showToast(
+                                    msg: "Não foi possível acessar o link",
+                                    backgroundColor: Colors.red,
+                                  );
+                                }
+                              },
+                            )
+                          : Container(),
+                      userStore.user!.result.twitter != null
+                          ? IconButton(
+                              icon: Icon(
+                                FontAwesomeIcons.twitter,
+                              ),
+                              onPressed: () async {
+                                String url = userStore.user!.result.twitter;
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  Fluttertoast.showToast(
+                                    msg: "Não foi possível acessar o link",
+                                    backgroundColor: Colors.red,
+                                  );
+                                }
+                              },
+                            )
+                          : Container(),
+                    ],
+                  ),
+                ],
+              );
+          }
+        },
+      );
 }

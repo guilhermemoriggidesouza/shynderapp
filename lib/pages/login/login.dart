@@ -24,21 +24,21 @@ class _LoginScreenState extends State<LoginScreen> {
   bool loading = false;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    bool wasLogged = await authController.verifyIfWasLogged();
-    if (wasLogged) {
+    authController.verifyIfWasLogged(() {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
-    }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                           try {
                             await authController.login(
-                                loginController.text, passwordController.text);
+                                loginController.text, passwordController.text, context);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -97,9 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: loading
                           ? SizedBox(
-                              child: CircularProgressIndicator(),
-                              height: 10.0,
-                              width: 10.0,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                              ),
+                              height: 15.0,
+                              width: 15.0,
                             )
                           : Text(
                               'Login',

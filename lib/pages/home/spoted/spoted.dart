@@ -197,6 +197,7 @@ class _SpotedState extends State<Spoted> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Spoteds perto de você!!"),
         actions: [
           IconButton(
@@ -222,7 +223,7 @@ class _SpotedState extends State<Spoted> {
               );
             },
             color: Colors.white,
-            icon: Icon(Icons.filter),
+            icon: Icon(Icons.filter_alt_outlined, size: 30),
           ),
         ],
       ),

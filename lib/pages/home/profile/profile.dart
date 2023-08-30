@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shynder/controllers/auth.dart';
 import 'package:shynder/pages/home/profile/edit.dart';
 import 'package:shynder/pages/home/profile/view.dart';
+import 'package:shynder/pages/login/login.dart';
 
 class Profile extends StatefulWidget {
   bool canEdit = false;
@@ -12,15 +14,35 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool editMode = false;
+  AuthController authController = AuthController();
+
   builEditButton() {
-    return IconButton(
-      iconSize: 35,
-      onPressed: () {
-        setState(() {
-          this.editMode = !this.editMode;
-        });
+    return PopupMenuButton<String>(
+      onSelected: (value) {
+        switch (value) {
+          case "Edit":
+            setState(() {
+              this.editMode = true;
+            });
+            break;
+          case "Logout":
+            authController.logout(() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            }, context);
+            break;
+        }
       },
-      icon: Icon(Icons.edit_note),
+      itemBuilder: (BuildContext context) {
+        return {'Logout', 'Edit'}.map((String choice) {
+          return PopupMenuItem<String>(
+            value: choice,
+            child: Text(choice),
+          );
+        }).toList();
+      },
     );
   }
 
@@ -29,7 +51,7 @@ class _ProfileState extends State<Profile> {
       iconSize: 35,
       onPressed: () {
         setState(() {
-          this.editMode = !this.editMode;
+          this.editMode = false;
         });
       },
       icon: Icon(Icons.check),
@@ -45,6 +67,15 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: editMode
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    this.editMode = false;
+                  });
+                },
+                icon: Icon(Icons.arrow_back))
+            : Icon(Icons.person),
         title: Text(editMode ? "Edite seu perfil" : "Perfil"),
         actions: [widget.canEdit ? buildActionButton() : Container()],
       ),
