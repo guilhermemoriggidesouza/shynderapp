@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:shynder/controllers/user.dart';
 import 'package:shynder/models/user.dart';
 
@@ -27,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController faculController = TextEditingController();
   final TextEditingController ocupationController = TextEditingController();
   final TextEditingController loginController = TextEditingController();
+  final TextEditingController ageController = TextEditingController();
   bool _switchValue = false;
   int _state = 0;
   UserController userController = UserController();
@@ -68,19 +70,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 27,
                 ),
                 _buildTextField(
-                    nameController, Icons.account_circle, 'Nome', false),
+                    nameController, Icons.account_circle, 'Nome Inteiro*', false),
                 const SizedBox(height: 15),
-                _buildTextField(EmailController, Icons.email, 'email', false),
+                _buildTextField(EmailController, Icons.email, "Email*", false),
                 const SizedBox(height: 15),
-                _buildTextField(loginController, Icons.person, 'Login', false),
+                _buildTextField(loginController, Icons.person, 'Login*', false),
                 const SizedBox(height: 15),
-                _buildTextField(passwordController, Icons.lock, 'Senha', true),
+                _buildTextField(passwordController, Icons.lock, 'Senha*', true),
                 const SizedBox(height: 15),
                 _buildTextField(passwordConfirmController, Icons.lock,
-                    'Confirme sua senha', true),
+                    'Confirme sua senha*', true),
                 const SizedBox(height: 15),
                 _buildTextField(faculController, FontAwesomeIcons.school,
                     'Faculdade', false),
+                const SizedBox(height: 15),
+                _buildTextField(
+                  ageController,
+                  FontAwesomeIcons.birthdayCake,
+                  'Aniversário',
+                  false,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101));
+
+                    if (pickedDate != null) {
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      setState(() {
+                        ageController.text = formattedDate;
+                      });
+                    }
+                  },
+                ),
                 const SizedBox(height: 15),
                 _buildTextField(
                     ocupationController, Icons.work, 'Trabalho/Cargo', false),
@@ -113,6 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       passwordConfirmController.text,
                       loginController.text,
                       bioController.text,
+                      ageController.text,
                       faculController.text,
                       ocupationController.text,
                       facebookController.text,
@@ -178,7 +203,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   _buildTextField(TextEditingController controller, IconData icon,
       String labelText, bool pass,
-      {isTextArea = false, minLines = 1}) {
+      {isTextArea = false, minLines = 1, onTap}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: const BoxDecoration(
@@ -187,6 +212,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: TextField(
         controller: controller,
         obscureText: pass,
+        onTap: onTap,
         style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),

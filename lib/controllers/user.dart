@@ -51,12 +51,6 @@ class UserController {
           SnackBar(content: Text("Essa senha não pode ser utilizada")));
       return false;
     }
-    if (senha.contains("123")) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-              "Essa senha não pode ser utilizada, por ser muito facil de advinhar")));
-      return false;
-    }
 
     return true;
   }
@@ -68,6 +62,7 @@ class UserController {
     String passwordConfirm,
     String login,
     String? bio,
+    String? age,
     String? facul,
     String? ocupation,
     String? facebook,
@@ -88,6 +83,7 @@ class UserController {
           name: name,
           email: email,
           login: login,
+          age: age,
           password: password,
           bio: bio,
           facul: facul,

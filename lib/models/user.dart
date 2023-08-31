@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class User {
   User({
     required this.name,
@@ -6,6 +8,7 @@ class User {
     required this.password,
     this.userId,
     this.id,
+    this.age,
     this.bio,
     this.facul,
     this.ocupation,
@@ -19,6 +22,7 @@ class User {
   final String login;
   final String password;
   final String? id;
+  final String? age;
   final String? userId;
   final String? bio;
   final String? facul;
@@ -32,6 +36,7 @@ class User {
     String login = "",
     String email = "",
     String password = "",
+    String? age,
     String? id,
     String? userId,
     String? bio,
@@ -48,6 +53,7 @@ class User {
       name: this.name,
       login: this.login,
       email: this.email,
+      age: this.age,
       bio: this.bio,
       facul: this.facul,
       ocupation: this.ocupation,
@@ -66,6 +72,7 @@ class User {
       email: json["email"] ?? "",
       login: json["login"] ?? "",
       bio: json["bio"] ?? "",
+      age: json["age"],
       facul: json["facul"] ?? "",
       ocupation: json["ocupation"] ?? "",
       facebook: json["facebook"] ?? "",
@@ -80,6 +87,7 @@ class User {
         "name": name,
         "password": password,
         "email": email,
+        "age": age,
         "login": login,
         "bio": bio,
         "facul": facul,

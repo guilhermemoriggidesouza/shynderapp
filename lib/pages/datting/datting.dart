@@ -23,7 +23,10 @@ class Datting extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft:Radius.circular(30)),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -41,11 +44,11 @@ class Datting extends StatelessWidget {
   }
 
   buildCloseButton() {
-    return AnimatedButton(Icons.close, (){}, 100);
+    return AnimatedButton(Icons.close, () {}, 100);
   }
 
   buildLikeButton() {
-    return AnimatedButton(Icons.favorite, (){}, 100);
+    return AnimatedButton(Icons.favorite, () {}, 100);
   }
 
   @override

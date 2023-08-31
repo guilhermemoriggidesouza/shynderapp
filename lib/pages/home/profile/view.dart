@@ -64,6 +64,27 @@ class _ViewProfileState extends State<ViewProfile> {
     );
   }
 
+  calculateAge(String? birth) {
+    if (birth == null) {
+      return 0;
+    }
+    DateTime birthDate = DateTime.parse(birth);
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+    int month1 = currentDate.month;
+    int month2 = birthDate.month;
+    if (month2 > month1) {
+      age--;
+    } else if (month1 == month2) {
+      int day1 = currentDate.day;
+      int day2 = birthDate.day;
+      if (day2 > day1) {
+        age--;
+      }
+    }
+    return age;
+  }
+
   @override
   Widget build(BuildContext context) => Observer(
         builder: (context) {
@@ -87,90 +108,165 @@ class _ViewProfileState extends State<ViewProfile> {
                 margin: const EdgeInsets.all(60),
                 alignment: Alignment.center,
                 child: Center(
-                    child: Text(
-                        "Não foi possível carregar seu perfil, tente novamente mais tarde")),
+                  child: Text(
+                      "Não foi possível carregar seu perfil, tente novamente mais tarde"),
+                ),
               );
             case FutureStatus.fulfilled:
-              return Column(
-                children: [
-                  renderImages(),
-                  Container(
-                    margin: EdgeInsets.only(top: 20, bottom: 5),
-                    child: Text(
-                      userStore.user!.result.name,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: 5, bottom: 20, left: 20, right: 20),
-                    child: Text(
-                      userStore.user!.result.bio,
-                      style: TextStyle(fontSize: 14),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              return Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      userStore.user!.result.facebook != null
-                          ? IconButton(
-                              icon: Icon(
-                                Icons.facebook,
+                      renderImages(),
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              userStore.user!.result.name,
+                              style: TextStyle(fontSize: 26),
+                            ),
+                            calculateAge(userStore.user!.result.age) > 0
+                                ? Text(
+                                    ", ${calculateAge(userStore.user!.result.age)}.",
+                                    style: TextStyle(fontSize: 18),
+                                  )
+                                : Container(),
+                          ],
+                        ),
+                      ),
+                      userStore.user!.result.bio != null
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  top: 5, bottom: 30, left: 40, right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(FontAwesomeIcons.heart, size: 20),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    userStore.user!.result.facul,
+                                    style: TextStyle(fontSize: 14),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
-                              onPressed: () async {
-                                String url = userStore.user!.result.facebook;
-                                if (await canLaunch(url)) {
-                                  await launch(url);
-                                } else {
-                                  Fluttertoast.showToast(
-                                    msg: "Não foi possível acessar o link",
-                                    backgroundColor: Colors.red,
-                                  );
-                                }
-                              },
                             )
                           : Container(),
-                      userStore.user!.result.instagram != null
-                          ? IconButton(
-                              icon: Icon(
-                                FontAwesomeIcons.instagram,
+                      userStore.user!.result.facul != null
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  bottom: 10, left: 40, right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(FontAwesomeIcons.school, size: 15),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    userStore.user!.result.facul,
+                                    style: TextStyle(fontSize: 14),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
-                              onPressed: () async {
-                                String url = userStore.user!.result.instagram;
-                                if (await canLaunch(url)) {
-                                  await launch(url);
-                                } else {
-                                  Fluttertoast.showToast(
-                                    msg: "Não foi possível acessar o link",
-                                    backgroundColor: Colors.red,
-                                  );
-                                }
-                              },
                             )
                           : Container(),
-                      userStore.user!.result.twitter != null
-                          ? IconButton(
-                              icon: Icon(
-                                FontAwesomeIcons.twitter,
+                      userStore.user!.result.ocupation != null
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  bottom: 40, left: 40, right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.work,
+                                    size: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    userStore.user!.result.ocupation,
+                                    style: TextStyle(fontSize: 14),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
-                              onPressed: () async {
-                                String url = userStore.user!.result.twitter;
-                                if (await canLaunch(url)) {
-                                  await launch(url);
-                                } else {
-                                  Fluttertoast.showToast(
-                                    msg: "Não foi possível acessar o link",
-                                    backgroundColor: Colors.red,
-                                  );
-                                }
-                              },
                             )
                           : Container(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          userStore.user!.result.facebook != null
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.facebook,
+                                  ),
+                                  onPressed: () async {
+                                    String url =
+                                        userStore.user!.result.facebook;
+                                    if (await canLaunch(url)) {
+                                      await launch(url);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                        msg: "Não foi possível acessar o link",
+                                        backgroundColor: Colors.red,
+                                      );
+                                    }
+                                  },
+                                )
+                              : Container(),
+                          userStore.user!.result.instagram != null
+                              ? IconButton(
+                                  icon: Icon(
+                                    FontAwesomeIcons.instagram,
+                                  ),
+                                  onPressed: () async {
+                                    String url =
+                                        userStore.user!.result.instagram;
+                                    if (await canLaunch(url)) {
+                                      await launch(url);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                        msg: "Não foi possível acessar o link",
+                                        backgroundColor: Colors.red,
+                                      );
+                                    }
+                                  },
+                                )
+                              : Container(),
+                          userStore.user!.result.twitter != null
+                              ? IconButton(
+                                  icon: Icon(
+                                    FontAwesomeIcons.twitter,
+                                  ),
+                                  onPressed: () async {
+                                    String url = userStore.user!.result.twitter;
+                                    if (await canLaunch(url)) {
+                                      await launch(url);
+                                    } else {
+                                      Fluttertoast.showToast(
+                                        msg: "Não foi possível acessar o link",
+                                        backgroundColor: Colors.red,
+                                      );
+                                    }
+                                  },
+                                )
+                              : Container(),
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
               );
           }
         },
