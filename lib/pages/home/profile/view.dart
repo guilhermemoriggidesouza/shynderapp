@@ -84,7 +84,7 @@ class _ViewProfileState extends State<ViewProfile> {
 
             case FutureStatus.rejected:
               return Container(
-                margin: const EdgeInsets.symmetric(vertical: 60),
+                margin: const EdgeInsets.all(60),
                 alignment: Alignment.center,
                 child: Center(
                     child: Text(
