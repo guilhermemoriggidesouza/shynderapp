@@ -3,17 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shynder/controllers/auth.dart';
 import 'package:shynder/pages/home/home.dart';
+import 'package:shynder/pages/login/login.dart';
 import 'package:shynder/pages/login/register.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class EmailRecover extends StatefulWidget {
+  const EmailRecover({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<EmailRecover> createState() => _EmailRecoverState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _EmailRecoverState extends State<EmailRecover> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController codeController = TextEditingController();
@@ -35,13 +36,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   buildContainer() {
-    switch (stage) {
+    switch (this.stage) {
       case 0:
         return _buildTextField(emailController, Icons.email, 'Email', false);
       case 1:
-        return Row(
+        return Column(
           children: [
-            _buildTextField(codeController, Icons.password, 'Código', false),
+            _buildTextField(codeController, Icons.numbers, 'Código', false,
+                type: TextInputType.number),
             const SizedBox(height: 30),
             _buildTextField(passController, Icons.password, 'Senha', true),
             const SizedBox(height: 30),
@@ -73,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.bottomCenter,
                   child: _buildFooterLogo(),
                 ),
+                buildContainer(),
                 const SizedBox(height: 60),
                 const SizedBox(height: 30),
                 const Text(
@@ -110,6 +113,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   passController.text,
                                   newPassController.text,
                                   codeController.text);
+                              Fluttertoast.showToast(
+                                msg: "Senha modificada com sucesso!",
+                                backgroundColor: Colors.green,
+                              );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
+                              );
                             } catch (err) {
                               Fluttertoast.showToast(
                                 msg: err.toString().split(":")[1],
@@ -177,14 +189,15 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
   _buildTextField(TextEditingController controller, IconData icon,
-      String labelText, bool pass) {
+      String labelText, bool pass,
+      {TextInputType type = TextInputType.text}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: const BoxDecoration(
-        //border: Border.all(color: Cores.CorDeDestaque),
         borderRadius: BorderRadius.all(Radius.circular(17.0)),
       ),
       child: TextField(
+        keyboardType: type,
         controller: controller,
         obscureText: pass,
         style: const TextStyle(color: Colors.white),

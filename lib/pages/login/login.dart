@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shynder/controllers/auth.dart';
 import 'package:shynder/pages/home/home.dart';
+import 'package:shynder/pages/login/emailRecover.dart';
 import 'package:shynder/pages/login/register.dart';
 import 'package:shynder/pages/login/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -76,8 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             this.loading = true;
                           });
                           try {
-                            await authController.login(
-                                loginController.text, passwordController.text, context);
+                            await authController.login(loginController.text,
+                                passwordController.text, context);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -139,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => RegisterScreen(),
+                            builder: (_) => EmailRecover(),
                           ),
                         );
                       },

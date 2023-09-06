@@ -7,7 +7,7 @@ class AuthController {
   AuthRepository authRepo = AuthRepository();
   String? emailRecover;
   login(String login, String password, BuildContext context) async {
-    String result = await authRepo.login(login, password);
+    String? result = await authRepo.login(login, password);
     await Api().start(context);
     return result;
   }
