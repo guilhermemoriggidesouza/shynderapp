@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shynder/controllers/auth.dart';
+import 'package:shynder/componentes/input.dart';
 import 'package:shynder/pages/home/home.dart';
 import 'package:shynder/pages/login/emailRecover.dart';
 import 'package:shynder/pages/login/register.dart';
-import 'package:shynder/pages/login/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'register.dart';
 
@@ -56,9 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: _buildFooterLogo(),
                 ),
                 const SizedBox(height: 60),
-                _buildTextField(loginController, Icons.login, 'Login', false),
+                input(loginController, Icons.login, 'Login', false),
                 const SizedBox(height: 30),
-                _buildTextField(passwordController, Icons.lock, 'Senha', true),
+                input(passwordController, Icons.lock, 'Senha', true),
                 const SizedBox(height: 30),
                 const Text(
                   'Entre com seu login e senha para entrar em nossa plataforma',
@@ -191,32 +191,4 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ],
       );
-
-  _buildTextField(TextEditingController controller, IconData icon,
-      String labelText, bool pass) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: const BoxDecoration(
-        //border: Border.all(color: Cores.CorDeDestaque),
-        borderRadius: BorderRadius.all(Radius.circular(17.0)),
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: pass,
-        style: const TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-            labelText: labelText,
-            labelStyle: const TextStyle(
-              color: Colors.white24,
-            ),
-            icon: Icon(
-              icon,
-              color: Colors.white,
-            ),
-            // prefix: Icon(icon),
-            border: InputBorder.none),
-      ),
-    );
-  }
 }

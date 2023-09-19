@@ -35,11 +35,11 @@ class _CreateSpotedState extends State<CreateSpoted> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          input(titleController, "Titulo", () {}),
+          input(titleController, Icons.title, "Titulo", false),
           SizedBox(
             height: 10,
           ),
-          input(textController, "Texto", () {}, isTextArea: true, minLines: 6),
+          input(textController, Icons.text_fields, "Texto", false),
           SizedBox(
             height: 20,
           ),

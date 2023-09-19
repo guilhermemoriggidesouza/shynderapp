@@ -29,4 +29,17 @@ class UserRepository {
           "Erro ao tentar cadastrar Usuário. Tente novamente mais tarde");
     }
   }
+
+  Future editUser(User user) async {
+    try {
+      await api.dio.put("/user", data: user.toJson());
+    } catch (err) {
+      DioException error = err as DioException;
+      if (error.response?.statusCode == 400) {
+        throw Exception(error.response!.data["message"]);
+      }
+      throw Exception(
+          "Erro ao tentar editar Usuário. Tente novamente mais tarde");
+    }
+  }
 }

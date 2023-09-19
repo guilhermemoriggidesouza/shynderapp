@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:shynder/componentes/input.dart';
 import 'package:shynder/controllers/auth.dart';
 import 'package:shynder/pages/home/home.dart';
 import 'package:shynder/pages/login/login.dart';
@@ -38,16 +39,16 @@ class _EmailRecoverState extends State<EmailRecover> {
   buildContainer() {
     switch (this.stage) {
       case 0:
-        return _buildTextField(emailController, Icons.email, 'Email', false);
+        return input(emailController, Icons.email, 'Email', false);
       case 1:
         return Column(
           children: [
-            _buildTextField(codeController, Icons.numbers, 'Código', false,
+            input(codeController, Icons.numbers, 'Código', false,
                 type: TextInputType.number),
             const SizedBox(height: 30),
-            _buildTextField(passController, Icons.password, 'Senha', true),
+            input(passController, Icons.password, 'Senha', true),
             const SizedBox(height: 30),
-            _buildTextField(
+            input(
                 newPassController, Icons.password, 'Nova Senha', true),
           ],
         );
@@ -187,33 +188,4 @@ class _EmailRecoverState extends State<EmailRecover> {
           ),
         ],
       );
-
-  _buildTextField(TextEditingController controller, IconData icon,
-      String labelText, bool pass,
-      {TextInputType type = TextInputType.text}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(17.0)),
-      ),
-      child: TextField(
-        keyboardType: type,
-        controller: controller,
-        obscureText: pass,
-        style: const TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-            labelText: labelText,
-            labelStyle: const TextStyle(
-              color: Colors.white24,
-            ),
-            icon: Icon(
-              icon,
-              color: Colors.white,
-            ),
-            // prefix: Icon(icon),
-            border: InputBorder.none),
-      ),
-    );
-  }
 }

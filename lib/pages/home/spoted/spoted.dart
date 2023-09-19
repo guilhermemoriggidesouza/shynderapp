@@ -17,7 +17,6 @@ class Spoted extends StatefulWidget {
 
 class _SpotedState extends State<Spoted> {
   GoogleMapController? _googleMapController;
-
   List<String> list = [
     "Achei esse gato Achei esse gatoAchei esse gatoAchei esse gatoAchei esse gatoAchei esse gatoAchei esse gatoAchei esse gato Achei esse gato Achei esse gato Achei esse gato Achei esse gato Achei esse gato Achei esse gato Achei esse gato Achei esse gato Achei esse gato Achei esse gato uiuiuiuiuiuiuiuiuiuiuiuiuiuiuiuiuiuiu",
     "Achei essa gata",

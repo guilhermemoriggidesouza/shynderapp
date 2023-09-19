@@ -103,4 +103,31 @@ class UserController {
           .showSnackBar(SnackBar(content: Text(err.toString().split(":")[1])));
     }
   }
+
+  Future edit(
+    String name,
+    String email,
+    String login,
+    String bio,
+    String age,
+    String facul,
+    String ocupation,
+    String facebook,
+    String instagram,
+    String twitter,
+  ) async {
+    User user = User(
+      name: name,
+      email: email,
+      login: login,
+      bio: bio,
+      age: age,
+      facul: facul,
+      ocupation: ocupation,
+      facebook: facebook,
+      instagram: instagram,
+      twitter: twitter,
+    );
+    await userRepository.editUser(user);
+  }
 }

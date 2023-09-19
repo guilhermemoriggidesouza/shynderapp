@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:shynder/componentes/input.dart';
 import 'package:shynder/controllers/user.dart';
 import 'package:shynder/models/user.dart';
 
@@ -69,22 +70,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 27,
                 ),
-                _buildTextField(
-                    nameController, Icons.account_circle, 'Nome Inteiro*', false),
+                input(nameController, Icons.account_circle, 'Nome Inteiro*',
+                    false),
                 const SizedBox(height: 15),
-                _buildTextField(EmailController, Icons.email, "Email*", false),
+                input(EmailController, Icons.email, "Email*", false),
                 const SizedBox(height: 15),
-                _buildTextField(loginController, Icons.person, 'Login*', false),
+                input(loginController, Icons.person, 'Login*', false),
                 const SizedBox(height: 15),
-                _buildTextField(passwordController, Icons.lock, 'Senha*', true),
+                input(passwordController, Icons.lock, 'Senha*', true),
                 const SizedBox(height: 15),
-                _buildTextField(passwordConfirmController, Icons.lock,
+                input(passwordConfirmController, Icons.lock,
                     'Confirme sua senha*', true),
                 const SizedBox(height: 15),
-                _buildTextField(faculController, FontAwesomeIcons.school,
-                    'Faculdade', false),
+                input(faculController, FontAwesomeIcons.school, 'Faculdade',
+                    false),
                 const SizedBox(height: 15),
-                _buildTextField(
+                input(
                   ageController,
                   FontAwesomeIcons.birthdayCake,
                   'Aniversário',
@@ -106,21 +107,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
                 const SizedBox(height: 15),
-                _buildTextField(
-                    ocupationController, Icons.work, 'Trabalho/Cargo', false),
+                input(ocupationController, Icons.work, 'Trabalho/Cargo', false),
                 const SizedBox(height: 15),
-                _buildTextField(
-                    bioController, FontAwesomeIcons.heart, 'Bio', false,
+                input(bioController, FontAwesomeIcons.heart, 'Bio', false,
                     isTextArea: true, minLines: 6),
                 const SizedBox(height: 15),
-                _buildTextField(facebookController, FontAwesomeIcons.facebook,
-                    'Facebook', false),
+                input(facebookController, FontAwesomeIcons.facebook, 'Facebook',
+                    false),
                 const SizedBox(height: 15),
-                _buildTextField(instagramController, FontAwesomeIcons.instagram,
+                input(instagramController, FontAwesomeIcons.instagram,
                     'Instagram', false),
                 const SizedBox(height: 15),
-                _buildTextField(twitterController, FontAwesomeIcons.twitter,
-                    'Twitter', false),
+                input(twitterController, FontAwesomeIcons.twitter, 'Twitter',
+                    false),
                 const SizedBox(height: 30),
                 MaterialButton(
                   elevation: 0,
@@ -198,40 +197,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  _buildTextField(TextEditingController controller, IconData icon,
-      String labelText, bool pass,
-      {isTextArea = false, minLines = 1, onTap}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(17.0)),
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: pass,
-        onTap: onTap,
-        style: const TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          labelText: labelText,
-          labelStyle: const TextStyle(
-            color: Colors.white24,
-            fontFamily: 'OpenSans',
-          ),
-          icon: Icon(
-            icon,
-            color: Colors.white,
-          ),
-          border: InputBorder.none,
-        ),
-        keyboardType:
-            isTextArea && !pass ? TextInputType.multiline : TextInputType.text,
-        minLines: minLines,
-        maxLines: pass ? 1 : 6,
-      ),
     );
   }
 }

@@ -5,7 +5,7 @@ class User {
     required this.name,
     required this.email,
     required this.login,
-    required this.password,
+    this.password,
     this.userId,
     this.id,
     this.age,
@@ -20,7 +20,7 @@ class User {
   final String name;
   final String email;
   final String login;
-  final String password;
+  final String? password;
   final String? id;
   final String? age;
   final String? userId;
@@ -35,7 +35,7 @@ class User {
     String name = "",
     String login = "",
     String email = "",
-    String password = "",
+    String? password,
     String? age,
     String? id,
     String? userId,
